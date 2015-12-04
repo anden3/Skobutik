@@ -1,13 +1,11 @@
 function menuClick(e) {
     if (e.target.id === "woman") {
-        $("#man").parent().slideToggle(200, function() {
-            $("#menu2-" + e.target.id).slideToggle(200);
-        });
+        $("#menu2-" + e.target.id).slideToggle(200);
+        $("#menu2-man").slideUp(200);
     }
     else if (e.target.id === "man") {
-        $("#woman").parent().slideToggle(200, function() {
-            $("#menu2-" + e.target.id).slideToggle(200);
-        });
+        $("#menu2-" + e.target.id).slideDown(200);
+        $("#menu2-woman").slideUp(200);
     }
 
     getShoes({

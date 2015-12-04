@@ -1,19 +1,22 @@
-function displayShoe(data) {
-    var name = "<h3>" + data.Name + "</h3>";
-    var brand = "<p>" + data.Brand + "</p>";
-    var image = '<img src="' + data.Image + '">';
+function menuClick(e) {
+    if (e.target.id === "woman") {
+        $("#man").parent().slideToggle(200, function() {
+            $("#menu2-" + e.target.id).slideToggle(200);
+        });
+    }
+    else if (e.target.id === "man") {
+        $("#woman").parent().slideToggle(200, function() {
+            $("#menu2-" + e.target.id).slideToggle(200);
+        });
+    }
 
-    return '<div class="shoe">' + name + brand + image + "</div>";
-}
-
-function getShoes() {
-    $.post("get_shoes.php", {
-        "none": "none"
-    }, function (data) {
-        for (var s = 0; s < data.length; s++) {
-            $(".contents").append(displayShoe(data[s]));
-        }
+    getShoes({
+        query: "SELECT * FROM shoes WHERE Gender = '" + e.target.id + "'"
     });
 }
 
-getShoes();
+function eventListeners() {
+    $(".gender").click(function(event) { menuClick(event) });
+}
+
+eventListeners();

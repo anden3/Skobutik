@@ -14,11 +14,16 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$query = "SELECT * FROM shoes";
-
-$results = [];
-
 if ($_POST) {
+    if ($_POST['query']) {
+        $query = $_POST['query'];
+    }
+    else {
+        $query = "SELECT * FROM shoes";
+    }
+
+    $results = [];
+
     if ($result = mysqli_query($con, $query)) {
         $i = 0;
         while ($object = mysqli_fetch_object($result)) {
@@ -32,6 +37,7 @@ if ($_POST) {
             $results[$i]->MaxSize = $object->MaxSize;
             $results[$i]->Gender = $object->Gender;
             $results[$i]->Image = $object->Image;
+            $results[$i]->Price = $object->Price;
 
             $i += 1;
         }

@@ -7,26 +7,59 @@
         <link type="text/css" rel="stylesheet" href="stylesheet.css">
 
         <script type="text/javascript" src="libraries/jquery-2.1.4.js"></script>
-        <script type="text/javascript" src="script.js"></script>
+        <script type="text/javascript" src="content.js"></script>
     </head>
     <body>
         <div class="header">
             <img src="images/flashlogoliten.png"/>
         </div>
         <div class="menu">
-            <div class="menu1">
+            <div class="gender-options">
                 <ul>
-                    <li><a>Kvinna</a></li>
-                    <li><a>Man</a></li>
+                    <li><a class="gender" id="woman">Kvinna</a></li>
+
+                    <div class="shoe-options" id="menu2-woman">
+                        <ul>
+                            <li><a id="brand">Märke</a></li>
+                            <li><a id="type">Skotyp</a></li>
+                        </ul>
+                    </div>
+
+                    <li><a class="gender" id="man">Man</a></li>
+
+                    <div class="shoe-options" id="menu2-man">
+                        <ul>
+                            <li><a id="brand">Märke</a></li>
+                            <li><a id="type">Skotyp</a></li>
+                        </ul>
+                    </div>
                 </ul>
-                <div class="menu2">
-                    <ul>
-                        <li><a>Märke</a></li>
-                        <li><a>Skotyp</a></li>
-                    </ul>
-                </div>
+            </div>
+            <div class="search-options">
+                <p><b>Pris:</b></p>
+                <!--<input type="number"> - <input type="number">-->
+                <input type="range" min="0" max="2000">
+
+                <br><br>
+
+                <select>
+                    <option value="default" selected>Typ...</option>
+                    <option value="sneakers">Sneakers</option>
+                    <option value="boots">Stövlar</option>
+                </select>
+
+                <br><br>
+
+                <select>
+                    <option value="default" selected>Färg...</option>
+                    <option value="black">Svart</option>
+                    <option value="brown">Brun</option>
+                    <option value="white">Vit</option>
+                </select>
             </div>
         </div>
         <div class="contents"></div>
+
+        <script type="text/javascript" src="script.js"></script>
     </body>
 </html>

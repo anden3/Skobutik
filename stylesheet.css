@@ -1,5 +1,47 @@
 .header {
     text-align: center;
-    margin: 0;
+    margin: 0 0 20px 0;
     padding: 0;
+    clear: both;
+}
+
+.header img {
+	max-height: 100px;
+    min-height: 50px;
+    width: auto;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.menu {
+	width: 15%;
+    position: fixed;
+    left: 0;
+}
+
+.menu2 {
+    display: none;
+}
+
+.contents {
+	float: right;
+    width: 80%;
+    height: 80%;
+}
+
+.shoe {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+
+.shoe * {
+    margin: 0;
+}
+
+.shoe img {
+    height: 100px;
+    width: auto;
 }

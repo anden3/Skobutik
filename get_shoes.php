@@ -15,8 +15,25 @@ if (mysqli_connect_errno()) {
 }
 
 if ($_POST) {
-    if ($_POST['query']) {
-        $query = $_POST['query'];
+    if ($_POST['search']) {
+        $searchVars = $_POST['search'];
+        $query = "SELECT * FROM shoes"
+
+        if ($searchVars['gender']) {
+            $query = $query . " WHERE Gender = " . $searchVars['gender'];
+        }
+
+        if ($searchVars['maxPrice']) {
+            $query = $query . " AND Price <= " . $searchVars['maxPrice'];
+        }
+
+        if ($searchVars['type']) {
+            $query = $query . " AND Type = " . $searchVars['type'];
+        }
+
+        if ($searchVars['color']) {
+            $query = $query . " AND Color = " . $searchVars['color'];
+        }
     }
     else {
         $query = "SELECT * FROM shoes";

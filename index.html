@@ -11,7 +11,7 @@
     </head>
     <body>
         <div class="header">
-            <img src="images/flashlogoliten.png"/>
+            <a><img src="images/flashlogoliten.png"/></a>
         </div>
         <div class="menu">
             <div class="gender-options">
@@ -36,13 +36,14 @@
                 </ul>
             </div>
             <div class="search-options">
-                <p><b>Pris:</b></p>
+                <p><b>Pris under:</b></p>
                 <!--<input type="number"> - <input type="number">-->
-                <input type="range" min="0" max="2000">
+                <input id="search-price" type="range" min="0" max="2000" value="2000">
+                <p><span id="search-price-label">2000</span>:-</p>
 
                 <br><br>
 
-                <select>
+                <select id="search-type">
                     <option value="default" selected>Typ...</option>
                     <option value="sneakers">Sneakers</option>
                     <option value="boots">Stövlar</option>
@@ -50,7 +51,7 @@
 
                 <br><br>
 
-                <select>
+                <select id="search-color">
                     <option value="default" selected>Färg...</option>
                     <option value="black">Svart</option>
                     <option value="brown">Brun</option>

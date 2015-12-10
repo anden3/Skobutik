@@ -13,6 +13,7 @@ function getShoes(searchArgs) {
     }
 
     $.post("get_shoes.php", searchArgs, function(data) {
+        console.log(data);
         $(".contents").html("");
         for (var s = 0; s < data.length; s++) {
             $(".contents").append(displayShoe(data[s]));

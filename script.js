@@ -1,15 +1,22 @@
 var searchVars = {};
 
 function menuClick(e) {
-    if (e.target.id === "woman") {
-        $("#menu2-" + e.target.id).slideToggle(200);
-        $("#menu2-man").slideUp(200);
-        searchVars["gender"] = "woman";
+    var target = "woman";
+    var other = "man";
+
+    if (e.target.id === "man") {
+        var target = "man";
+        var other = "woman";
     }
-    else if (e.target.id === "man") {
-        $("#menu2-" + e.target.id).slideToggle(200);
-        $("#menu2-woman").slideUp(200);
-        searchVars["gender"] = "man";
+
+    $("#menu2-" + target).slideToggle(200);
+    $("#menu2-" + other).slideUp(200);
+
+    if (searchVars["gender"] === target) {
+        delete searchVars["gender"];
+    }
+    else {
+        searchVars["gender"] = target;
     }
 
     getShoes({
@@ -26,13 +33,26 @@ function eventListeners() {
 
     $("#search-price").change(function(event) {
         searchVars["maxPrice"] = event.target.value;
+        getShoes({search: searchVars});
     });
 
     $("#search-type").change(function(event) {
-        searchVars["type"] = event.target.value;
+        if (event.target.value !== "default") {
+            searchVars["type"] = event.target.value;
+        }
+        else {
+            delete searchVars["type"];
+        }
+        getShoes({search: searchVars});
     });
     $("#search-color").change(function(event) {
-        searchVars["color"] = event.target.value;
+        if (event.target.value !== "default") {
+            searchVars["color"] = event.target.value;
+        }
+        else {
+            delete searchVars["color"];
+        }
+        getShoes({search: searchVars});
     });
 }
 

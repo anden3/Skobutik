@@ -1,3 +1,9 @@
+var womenBrandsGenerated = false
+var womenTypesGenerated = false
+
+var menBrandsGenerated = false
+var menTypesGenerated = false
+
 function displayShoe(data) {
     var name = "<h3>" + data.Name + "</h3>";
     var brand = "<p>" + data.Brand + "</p>";
@@ -8,7 +14,7 @@ function displayShoe(data) {
 }
 
 function displayProperties(property, value) {
-    return '<p>' + value + "</p>";
+    return '<li><a class="' + property.toLowerCase() + '">' + value + "</a></li>";
 }
 
 function hasOneProperty(object) {
@@ -31,12 +37,16 @@ function hasOneProperty(object) {
 function getShoes(searchArgs) {
     var query = "";
 
-    if (searchArgs === "brand") {
-        query = 'SELECT Brand FROM shoes WHERE Gender = "' + searchVars.gender + '"';
-    }
+    if (typeof searchArgs === "string" && !!searchVars.gender) {
+        if (searchArgs === "brand" && !window[searchVars.gender + 'BrandsGenerated']) {
+            window[searchVars.gender + 'BrandsGenerated'] = true;
+            query = 'SELECT Brand FROM shoes WHERE Gender = "' + searchVars.gender + '"';
+        }
 
-    else if (searchArgs === "type") {
-        query = 'SELECT DISTINCT Type FROM shoes WHERE Gender = "' + searchVars.gender + '"';
+        else if (searchArgs === "type" && !window[searchVars.gender + 'TypesGenerated']) {
+            window[searchVars.gender + 'TypesGenerated'] = true;
+            query = 'SELECT DISTINCT Type FROM shoes WHERE Gender = "' + searchVars.gender + '"';
+        }
     }
 
     else if (!!searchArgs) {
@@ -57,6 +67,10 @@ function getShoes(searchArgs) {
         if (!!searchArgs.maxPrice) {
             query += ' AND Price <= ' + searchArgs.maxPrice;
         }
+
+        if (!!searchArgs.brand) {
+            query += ' AND Brand = "' + searchArgs.brand + '"';
+        }
     }
 
     else {
@@ -73,20 +87,46 @@ function getShoes(searchArgs) {
                 for (var s = 0; s < data.length; s++) {
                     $(active).append(displayProperties(getOneProperty, data[s][getOneProperty]));
                 }
+
+                if (getOneProperty === "Brand") {
+                    $(".brand").click(function (event) {
+                        delete searchVars['type'];
+                        searchVars['brand'] = event.target.innerHTML;
+                        getShoes(searchVars);
+                    });
+                }
+                else {
+                    $(".type").click(function (event) {
+                        delete searchVars['brand'];
+                        searchVars['type'] = event.target.innerHTML;
+                        getShoes(searchVars);
+                    });
+                }
             }
 
-            if (getOneProperty == "Brand") {
-                $("#" + searchVars.gender + "-type").animate({
-                    marginTop: "+=" + $(active).css("height")
-                }, 1000);
+            /*
+            if (getOneProperty === "Brand") {
+                var other = "#" + searchVars.gender + "-type";
+
+                $(active).slideToggle(200);
+                $(other).slideUp(200);
             }
             else {
-                $("#" + searchVars.gender + "-brand").animate({
-                    marginTop: "+=" + $(active).css("height")
-                }, 1000);
+                var other = "#" + searchVars.gender + "-brand";
+
+                $(active).slideToggle(200);
+                $(other).slideUp(200);
             }
 
-            $(active).slideToggle(200);
+            setTimeout(function () {
+                if (searchVars.gender === "woman" && $("#woman-brand").is(":hidden") && $("#woman-type").is(":hidden")) {
+                    $("#man").slideDown(200);
+                }
+                else if (searchVars.gender === "woman") {
+                    $("#man").slideUp(200);
+                }
+            }, 300);
+            */
         }
         else {
             $(".contents").html("");

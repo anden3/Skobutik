@@ -9,8 +9,14 @@ function menuClick(e) {
         var other = "woman";
     }
 
-    $("#menu2-" + target).slideToggle(200);
-    $("#menu2-" + other).slideUp(200);
+    if (target == "woman" && ($("#woman-brand").is(":visible") || $("#woman-type").is(":visible"))) {
+        $("#menu2-woman").slideToggle(200);
+        $("#man").slideDown(200);
+    }
+    else {
+        $("#menu2-" + target).slideToggle(200);
+        $("#menu2-" + other).slideUp(200);
+    }
 
     if (searchVars["gender"] === target) {
         delete searchVars["gender"];
@@ -22,12 +28,52 @@ function menuClick(e) {
     getShoes(searchVars);
 }
 
+function toggleOptions(e, button) {
+    var active = "#" + searchVars.gender + "-" + button;
+
+    if (button === "brand") {
+        var other = "#" + searchVars.gender + "-type";
+
+        $(active).slideToggle(200);
+        $(other).slideUp(200);
+    }
+    else {
+        var other = "#" + searchVars.gender + "-brand";
+
+        $(active).slideToggle(200);
+        $(other).slideUp(200);
+    }
+
+    setTimeout(function () {
+        if (searchVars.gender === "woman" && $("#woman-brand").is(":hidden") && $("#woman-type").is(":hidden")) {
+            $("#man").slideDown(200);
+        }
+        else if (searchVars.gender === "woman") {
+            $("#man").slideUp(200);
+        }
+    }, 300);
+}
+
 function eventListeners() {
     $(".gender").click(function(event) { menuClick(event); });
 
-    $(".brand-option").click(function (event) { getShoes("brand"); });
+    $(".brand-option").click(function (event) { getShoes("brand"); toggleOptions(event, "brand") });
 
-    $(".type-option").click(function (event) { getShoes("type"); });
+    $(".type-option").click(function (event) { getShoes("type"); toggleOptions(event, "type") });
+
+    /*
+    $(".brand").click(function (event) {
+        delete searchVars['type'];
+        searchVars['brand'] = event.target.innerHTML;
+        getShoes(searchVars);
+    });
+
+    $(".type").click(function (event) {
+        delete searchVars['brand'];
+        searchVars['type'] = event.target.innerHTML;
+        getShoes(searchVars);
+    });
+    */
 
     $("#search-price").on('input', function(event) {
         $("#search-price-label").html(event.target.value);
@@ -35,7 +81,7 @@ function eventListeners() {
 
     $("#search-price").change(function(event) {
         searchVars["maxPrice"] = event.target.value;
-        getShoes({search: searchVars});
+        getShoes(searchVars);
     });
 
     $("#search-type").change(function(event) {
@@ -45,7 +91,7 @@ function eventListeners() {
         else {
             delete searchVars["type"];
         }
-        getShoes({search: searchVars});
+        getShoes(searchVars);
     });
     $("#search-color").change(function(event) {
         if (event.target.value !== "default") {
@@ -54,7 +100,7 @@ function eventListeners() {
         else {
             delete searchVars["color"];
         }
-        getShoes({search: searchVars});
+        getShoes(searchVars);
     });
 }
 

@@ -50,6 +50,10 @@ ul {
     width: 50px;
 }
 
+.gender-options > ul > li {
+    margin-bottom: 8px;
+}
+
 .shoe-options {
     display: none;
     margin: 0 0 0 10px;
@@ -66,15 +70,15 @@ ul {
 .brand-options {
 	display: none;
     margin: 0 0 0 10px;
-    height: 36px;
-    width: 50px;
+    height: auto;
+    width: 90px;
 }
 
 .type-options {
 	display: none;
     margin: 0 0 0 10px;
-    height: 36px;
-    width: 50px;
+    height: auto;
+    width: 70px;
 }
 
 .search-options {

@@ -45,6 +45,20 @@ ul {
     width: 50px;
 }
 
+.brand-options {
+	display: none;
+    margin: 0 0 0 10px;
+    height: 36px;
+    width: 50px;
+}
+
+.type-options {
+	display: none;
+    margin: 0 0 0 10px;
+    height: 36px;
+    width: 50px;
+}
+
 .search-options {
 	width: 200px;
     height: 300px;

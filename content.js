@@ -8,7 +8,7 @@ function displayShoe(data) {
 }
 
 function displayProperties(property, value) {
-    return '<div class="shoe"><h3>' + value + "</h3></div>";
+    return '<p>' + value + "</p>";
 }
 
 function hasOneProperty(object) {
@@ -32,11 +32,11 @@ function getShoes(searchArgs) {
     var query = "";
 
     if (searchArgs === "brand") {
-        query = "SELECT Brand FROM shoes";
+        query = 'SELECT Brand FROM shoes WHERE Gender = "' + searchVars.gender + '"';
     }
 
     else if (searchArgs === "type") {
-        query = "SELECT Type FROM shoes";
+        query = 'SELECT DISTINCT Type FROM shoes WHERE Gender = "' + searchVars.gender + '"';
     }
 
     else if (!!searchArgs) {
@@ -64,15 +64,33 @@ function getShoes(searchArgs) {
     }
 
     $.post("get_shoes.php", {query: query}, function(data) {
-        $(".contents").html("");
-        var getOneProperty = hasOneProperty(data[0])
+        var getOneProperty = hasOneProperty(data[0]);
 
         if (!!getOneProperty) {
-            for (var s = 0; s < data.length; s++) {
-                $(".contents").append(displayProperties(getOneProperty, data[s][getOneProperty]));
+            var active = "#" + searchVars.gender + "-" + getOneProperty.toLowerCase();
+
+            if (!$(active).children().length) {
+                for (var s = 0; s < data.length; s++) {
+                    $(active).append(displayProperties(getOneProperty, data[s][getOneProperty]));
+                }
             }
+
+            if (getOneProperty == "Brand") {
+                $("#" + searchVars.gender + "-type").animate({
+                    marginTop: "+=" + $(active).css("height")
+                }, 1000);
+            }
+            else {
+                $("#" + searchVars.gender + "-brand").animate({
+                    marginTop: "+=" + $(active).css("height")
+                }, 1000);
+            }
+
+            $(active).slideToggle(200);
         }
         else {
+            $(".contents").html("");
+
             for (var s = 0; s < data.length; s++) {
                 $(".contents").append(displayShoe(data[s]));
             }

@@ -25,9 +25,9 @@ function menuClick(e) {
 function eventListeners() {
     $(".gender").click(function(event) { menuClick(event); });
 
-    $("#brand").click(function (event) { getShoes("brand"); });
+    $(".brand-option").click(function (event) { getShoes("brand"); });
 
-    $("#type").click(function (event) { getShoes("type"); });
+    $(".type-option").click(function (event) { getShoes("type"); });
 
     $("#search-price").on('input', function(event) {
         $("#search-price-label").html(event.target.value);

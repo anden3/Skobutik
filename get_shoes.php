@@ -15,39 +15,13 @@ if (mysqli_connect_errno()) {
 }
 
 if ($_POST) {
-    if ($_POST['search']) {
-        $searchVars = $_POST['search'];
-        if (!$searchVars["None"]) {
-            $query = "SELECT * FROM shoes WHERE 1 = 1";
-
-            if ($searchVars['gender']) {
-                $query = $query . ' AND Gender = "' . $searchVars['gender'] . '"';
-            }
-
-            if ($searchVars['maxPrice']) {
-                $query = $query . " AND Price <= " . $searchVars['maxPrice'];
-            }
-
-            if ($searchVars['type']) {
-                $query = $query . ' AND Type = "' . $searchVars['type'] . '"';
-            }
-
-            if ($searchVars['color']) {
-                $query = $query . ' AND Color = "' . $searchVars['color'] . '"';
-            }
-        }
-        else {
-            $query = "SELECT * FROM shoes";
-        }
-    }
-    else {
-        $query = "SELECT * FROM shoes";
-    }
+    $query = $_POST['query'];
 
     $results = [];
 
     if ($result = mysqli_query($con, $query)) {
         $i = 0;
+
         while ($object = mysqli_fetch_object($result)) {
             $results[$i] = new stdClass();
 

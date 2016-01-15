@@ -19,13 +19,15 @@ function menuClick(e) {
         searchVars["gender"] = target;
     }
 
-    getShoes({
-        search: searchVars
-    });
+    getShoes(searchVars);
 }
 
 function eventListeners() {
-    $(".gender").click(function(event) { menuClick(event) });
+    $(".gender").click(function(event) { menuClick(event); });
+
+    $("#brand").click(function (event) { getShoes("brand"); });
+
+    $("#type").click(function (event) { getShoes("type"); });
 
     $("#search-price").on('input', function(event) {
         $("#search-price-label").html(event.target.value);

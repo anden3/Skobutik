@@ -1,6 +1,8 @@
 var searchVars = {};
 
 function menuClick(e) {
+    searchVars = {};
+
     var target = "woman";
     var other = "man";
 
@@ -18,17 +20,15 @@ function menuClick(e) {
         $("#menu2-" + other).slideUp(200);
     }
 
-    if (searchVars["gender"] === target) {
-        delete searchVars["gender"];
-    }
-    else {
-        searchVars["gender"] = target;
-    }
-
+    searchVars["gender"] = target;
     getShoes(searchVars);
 }
 
 function toggleOptions(e, button) {
+    if (!!searchVars['brand']) {
+        delete searchVars['brand'];
+    }
+
     var active = "#" + searchVars.gender + "-" + button;
 
     if (button === "brand") {
@@ -57,23 +57,9 @@ function toggleOptions(e, button) {
 function eventListeners() {
     $(".gender").click(function(event) { menuClick(event); });
 
-    $(".brand-option").click(function (event) { getShoes("brand"); toggleOptions(event, "brand") });
+    $(".brand-option").click(function (event) { toggleOptions(event, "brand"); getShoes("brand"); });
 
-    $(".type-option").click(function (event) { getShoes("type"); toggleOptions(event, "type") });
-
-    /*
-    $(".brand").click(function (event) {
-        delete searchVars['type'];
-        searchVars['brand'] = event.target.innerHTML;
-        getShoes(searchVars);
-    });
-
-    $(".type").click(function (event) {
-        delete searchVars['brand'];
-        searchVars['type'] = event.target.innerHTML;
-        getShoes(searchVars);
-    });
-    */
+    $(".type-option").click(function (event) { toggleOptions(event, "type"); getShoes("type"); });
 
     $("#search-price").on('input', function(event) {
         $("#search-price-label").html(event.target.value);

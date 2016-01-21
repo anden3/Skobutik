@@ -47,6 +47,32 @@ function getShoes(searchArgs) {
             window[searchVars.gender + 'TypesGenerated'] = true;
             query = 'SELECT DISTINCT Type FROM shoes WHERE Gender = "' + searchVars.gender + '"';
         }
+        else {
+            query = "SELECT * FROM shoes WHERE 1 = 1";
+
+            if (!!searchVars.gender) {
+                query += ' AND Gender = "' + searchVars.gender + '"';
+            }
+
+            if (!!searchVars.color) {
+                query += ' AND Color = "' + searchVars.color + '"';
+            }
+
+            if (!!searchVars.type) {
+                query += ' AND Type = "' + searchVars.type + '"';
+            }
+
+            if (!!searchVars.maxPrice) {
+                query += ' AND Price <= ' + searchVars.maxPrice;
+            }
+
+            if (!!searchVars.brand) {
+                query += ' AND Brand = "' + searchVars.brand + '"';
+            }
+
+            console.log(query);
+            console.log(searchVars['gender']);
+        }
     }
 
     else if (!!searchArgs) {
@@ -103,30 +129,6 @@ function getShoes(searchArgs) {
                     });
                 }
             }
-
-            /*
-            if (getOneProperty === "Brand") {
-                var other = "#" + searchVars.gender + "-type";
-
-                $(active).slideToggle(200);
-                $(other).slideUp(200);
-            }
-            else {
-                var other = "#" + searchVars.gender + "-brand";
-
-                $(active).slideToggle(200);
-                $(other).slideUp(200);
-            }
-
-            setTimeout(function () {
-                if (searchVars.gender === "woman" && $("#woman-brand").is(":hidden") && $("#woman-type").is(":hidden")) {
-                    $("#man").slideDown(200);
-                }
-                else if (searchVars.gender === "woman") {
-                    $("#man").slideUp(200);
-                }
-            }, 300);
-            */
         }
         else {
             $(".contents").html("");

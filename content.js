@@ -75,27 +75,27 @@ function getShoes(searchArgs) {
         }
     }
 
-    else if (!!searchArgs) {
+    else if (!!searchVars) {
         query = "SELECT * FROM shoes WHERE 1 = 1";
 
-        if (!!searchArgs.gender) {
-            query += ' AND Gender = "' + searchArgs.gender + '"';
+        if (!!searchVars.gender) {
+            query += ' AND Gender = "' + searchVars.gender + '"';
         }
 
-        if (!!searchArgs.color) {
-            query += ' AND Color = "' + searchArgs.color + '"';
+        if (!!searchVars.color) {
+            query += ' AND Color = "' + searchVars.color + '"';
         }
 
-        if (!!searchArgs.type) {
-            query += ' AND Type = "' + searchArgs.type + '"';
+        if (!!searchVars.type) {
+            query += ' AND Type = "' + searchVars.type + '"';
         }
 
-        if (!!searchArgs.maxPrice) {
-            query += ' AND Price <= ' + searchArgs.maxPrice;
+        if (!!searchVars.maxPrice) {
+            query += ' AND Price <= ' + searchVars.maxPrice;
         }
 
-        if (!!searchArgs.brand) {
-            query += ' AND Brand = "' + searchArgs.brand + '"';
+        if (!!searchVars.brand) {
+            query += ' AND Brand = "' + searchVars.brand + '"';
         }
     }
 

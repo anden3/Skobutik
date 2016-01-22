@@ -1,14 +1,19 @@
 var searchVars = {};
 
 function menuClick(e) {
-    searchVars = {};
-
     var target = "woman";
     var other = "man";
 
     if (e.target.id === "man") {
         var target = "man";
         var other = "woman";
+    }
+
+    if (searchVars['gender'] === target) {
+        searchVars = {};
+    }
+    else {
+        searchVars = { gender: target };
     }
 
     if (target == "woman" && ($("#woman-brand").is(":visible") || $("#woman-type").is(":visible"))) {
@@ -20,7 +25,6 @@ function menuClick(e) {
         $("#menu2-" + other).slideUp(200);
     }
 
-    searchVars["gender"] = target;
     getShoes(searchVars);
 }
 

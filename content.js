@@ -29,15 +29,32 @@ function hasOneProperty(object) {
     return false;
 }
 
-function getShoes(searchItem) {
-    var query = "";
-
-    if (typeof searchItem === "string" && !!searchVars.gender && !window[searchVars.gender + searchItem.capitalize() + "sGenerated"]) {
-        window[searchVars.gender + searchItem.capitalize() + "sGenerated"] = true;
-        query = "SELECT " + categoriesColumns[searchItem] + ' FROM shoes WHERE Gender = "' + searchVars.gender + '"';
+function getLists(category) {
+    if (!!searchVars.gender && !window[searchVars.gender + category.capitalize() + "sGenerated"]) {
+        window[searchVars.gender + category.capitalize() + "sGenerated"] = true;
+        query = "SELECT " + categoriesColumns[category] + ' FROM shoes WHERE Gender = "' + searchVars.gender + '"';
+    }
+    else {
+        return false;
     }
 
-    else if (!!searchVars) {
+    $.post("get_shoes.php", {query: query}, function(data) {
+        for (var s = 0; s < data.length; s++) {
+            $("#" + searchVars.gender + "-" + category).append('<li><a class="' + category + '">' + data[s][category.capitalize()] + "</a></li>");
+        }
+
+        $('.' + category).click(function (e) {
+            delete searchVars[categories[category]];
+            searchVars[category] = e.target.innerHTML;
+            getShoes();
+        });
+    });
+}
+
+function getShoes() {
+    var query = "";
+
+    if (!!searchVars) {
         query = "SELECT * FROM shoes WHERE 1 = 1";
 
         for (var key in searchVars) {
@@ -55,28 +72,10 @@ function getShoes(searchItem) {
     }
 
     $.post("get_shoes.php", {query: query}, function(data) {
-        if (!!hasOneProperty(data[0])) {
-            getOneProperty = hasOneProperty(data[0]).toLowerCase();
-            var active = "#" + searchVars.gender + "-" + getOneProperty;
+        $(".contents").html("");
 
-            if (!$(active).children().length) {
-                for (var s = 0; s < data.length; s++) {
-                    $(active).append('<li><a class="' + getOneProperty + '">' + data[s][getOneProperty.capitalize()] + "</a></li>");
-                }
-
-                $('.' + getOneProperty).click(function (e) {
-                    delete searchVars[categories[getOneProperty]];
-                    searchVars[getOneProperty] = e.target.innerHTML;
-                    getShoes();
-                });
-            }
-        }
-        else {
-            $(".contents").html("");
-
-            for (var s = 0; s < data.length; s++) {
-                $(".contents").append('<div class="shoe"><h3>' + data[s].Name + "</h3><p>" + data[s].Brand + '</p><img src="' + data[s].Image + '"><p><b>' + data[s].Price + ':-</b></p></div>');
-            }
+        for (var s = 0; s < data.length; s++) {
+            $(".contents").append('<div class="shoe"><h3>' + data[s].Name + "</h3><p>" + data[s].Brand + '</p><img src="' + data[s].Image + '"><p><b>' + data[s].Price + ':-</b></p></div>');
         }
     });
 }

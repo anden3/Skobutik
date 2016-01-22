@@ -43,7 +43,7 @@ a {
     top: 17%;
 }
 
-.search-menu > * {
+.search-menu > *, .shoe-options > * {
     margin-right: 30px;
     display: inline;
 }

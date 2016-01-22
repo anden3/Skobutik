@@ -21,10 +21,31 @@ a {
 
 .separator {
     display: block;
-    width: 100%;
+    width: 110%;
     height: 1px;
     background-color: black;
     margin-bottom: 15px;
+}
+
+.separator2 {
+    position: fixed;
+    display: block;
+    width: 100%;
+    top: 21%;
+    height: 1px;
+    background-color: grey;
+    margin-bottom: 20px;
+}
+
+.search-menu {
+    position: fixed;
+    left: 10%;
+    top: 17%;
+}
+
+.search-menu > * {
+    margin-right: 30px;
+    display: inline;
 }
 
 ul {
@@ -36,6 +57,7 @@ ul {
     height: 200px;
     position: fixed;
     left: 20px;
+    top: 23%;
 }
 
 .menu, .menu * {
@@ -45,13 +67,14 @@ ul {
     height: 20px;
 }
 
-.gender-options {
-	height: 100px;
-    width: 50px;
+.gender-options > ul {
+    margin: 0;
+    padding: 0;
 }
 
 .gender-options > ul > li {
     margin-bottom: 8px;
+    display: inline;
 }
 
 .shoe-options {
@@ -84,7 +107,6 @@ ul {
 .search-options {
 	width: 200px;
     height: 300px;
-    margin-top: 200px;
 }
 
 .search-options * {

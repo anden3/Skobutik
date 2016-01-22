@@ -29,12 +29,12 @@ function hasOneProperty(object) {
     return false;
 }
 
-function getShoes(searchArgs) {
+function getShoes(searchItem) {
     var query = "";
 
-    if (typeof searchArgs === "string" && !!searchVars.gender && !window[searchVars.gender + searchArgs.capitalize() + "sGenerated"]) {
-        window[searchVars.gender + searchArgs.capitalize() + "sGenerated"] = true;
-        query = "SELECT " + categoriesColumns[searchArgs] + ' FROM shoes WHERE Gender = "' + searchVars.gender + '"';
+    if (typeof searchItem === "string" && !!searchVars.gender && !window[searchVars.gender + searchItem.capitalize() + "sGenerated"]) {
+        window[searchVars.gender + searchItem.capitalize() + "sGenerated"] = true;
+        query = "SELECT " + categoriesColumns[searchItem] + ' FROM shoes WHERE Gender = "' + searchVars.gender + '"';
     }
 
     else if (!!searchVars) {
@@ -55,30 +55,20 @@ function getShoes(searchArgs) {
     }
 
     $.post("get_shoes.php", {query: query}, function(data) {
-        var getOneProperty = hasOneProperty(data[0]);
-
-        if (!!getOneProperty) {
-            var active = "#" + searchVars.gender + "-" + getOneProperty.toLowerCase();
+        if (!!hasOneProperty(data[0])) {
+            getOneProperty = hasOneProperty(data[0]).toLowerCase();
+            var active = "#" + searchVars.gender + "-" + getOneProperty;
 
             if (!$(active).children().length) {
                 for (var s = 0; s < data.length; s++) {
-                    $(active).append('<li><a class="' + getOneProperty.toLowerCase() + '">' + data[s][getOneProperty] + "</a></li>");
+                    $(active).append('<li><a class="' + getOneProperty + '">' + data[s][getOneProperty.capitalize()] + "</a></li>");
                 }
 
-                if (getOneProperty === "Brand") {
-                    $(".brand").click(function (event) {
-                        delete searchVars['type'];
-                        searchVars['brand'] = event.target.innerHTML;
-                        getShoes(searchVars);
-                    });
-                }
-                else {
-                    $(".type").click(function (event) {
-                        delete searchVars['brand'];
-                        searchVars['type'] = event.target.innerHTML;
-                        getShoes(searchVars);
-                    });
-                }
+                $('.' + getOneProperty).click(function (e) {
+                    delete searchVars[categories[getOneProperty]];
+                    searchVars[getOneProperty] = e.target.innerHTML;
+                    getShoes();
+                });
             }
         }
         else {

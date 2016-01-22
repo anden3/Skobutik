@@ -88,15 +88,6 @@ a {
     width: auto;
 }
 
-.search-options {
-	width: 200px;
-    height: 300px;
-}
-
-.search-options * {
-	width: auto;
-}
-
 .contents {
 	float: right;
     width: 90%;

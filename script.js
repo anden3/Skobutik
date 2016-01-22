@@ -22,7 +22,7 @@ function menuClick(e) {
     $("#menu-" + e.target.id).slideToggle(200);
     $("#menu-" + genders[e.target.id]).slideUp(200);
 
-    getShoes(searchVars);
+    getShoes();
 }
 
 function toggleOptions(e, button) {
@@ -35,6 +35,8 @@ function toggleOptions(e, button) {
 }
 
 function eventListeners() {
+    $(".header").click(function (e) { searchVars = {}; getShoes(); });
+
     $(".gender").click(function (e) { menuClick(e); });
 
     $(".brand-option").click(function (e) { toggleOptions(e, "brand"); getShoes("brand"); });
@@ -43,7 +45,7 @@ function eventListeners() {
 
     $("#search-price").on('input', function (e) { $("#search-price-label").html(e.target.value); });
 
-    $("#search-price").change(function (e) { searchVars["maxPrice"] = e.target.value; getShoes(searchVars); });
+    $("#search-price").change(function (e) { searchVars["maxPrice"] = e.target.value; getShoes(); });
 
     $(document).mouseup(function (e) {
         if (!!searchVars.gender && e.target.classList[0] !== "gender") {
@@ -59,7 +61,7 @@ function eventListeners() {
                     searchVars = {};
                 }
 
-                getShoes(searchVars);
+                getShoes();
             }
         }
     });

@@ -1,20 +1,17 @@
-var womenBrandsGenerated = false
-var womenTypesGenerated = false
+var womenBrandsGenerated = false;
+var womenTypesGenerated = false;
 
-var menBrandsGenerated = false
-var menTypesGenerated = false
+var menBrandsGenerated = false;
+var menTypesGenerated = false;
 
-function displayShoe(data) {
-    var name = "<h3>" + data.Name + "</h3>";
-    var brand = "<p>" + data.Brand + "</p>";
-    var image = '<img src="' + data.Image + '">';
-    var price = '<p><b>' + data.Price + ':-</b></p>';
+var searchVars = {};
 
-    return '<div class="shoe">' + name + brand + image + price + "</div>";
-}
+var genders = { woman: "man", man: "woman" };
+var categories = { brand: "type", type: "brand" };
+var categoriesColumns = { brand: "Brand", type: "DISTINCT Type" };
 
-function displayProperties(property, value) {
-    return '<li><a class="' + property.toLowerCase() + '">' + value + "</a></li>";
+String.prototype.capitalize = function () {
+    return this.slice(0, 1).toUpperCase() + this.substring(1);
 }
 
 function hasOneProperty(object) {
@@ -29,73 +26,27 @@ function hasOneProperty(object) {
     if (properties.length === 1) {
         return properties[0];
     }
-    else {
-        return false;
-    }
+    return false;
 }
 
 function getShoes(searchArgs) {
     var query = "";
 
-    if (typeof searchArgs === "string" && !!searchVars.gender) {
-        if (searchArgs === "brand" && !window[searchVars.gender + 'BrandsGenerated']) {
-            window[searchVars.gender + 'BrandsGenerated'] = true;
-            query = 'SELECT Brand FROM shoes WHERE Gender = "' + searchVars.gender + '"';
-        }
-
-        else if (searchArgs === "type" && !window[searchVars.gender + 'TypesGenerated']) {
-            window[searchVars.gender + 'TypesGenerated'] = true;
-            query = 'SELECT DISTINCT Type FROM shoes WHERE Gender = "' + searchVars.gender + '"';
-        }
-        else {
-            query = "SELECT * FROM shoes WHERE 1 = 1";
-
-            if (!!searchVars.gender) {
-                query += ' AND Gender = "' + searchVars.gender + '"';
-            }
-
-            if (!!searchVars.color) {
-                query += ' AND Color = "' + searchVars.color + '"';
-            }
-
-            if (!!searchVars.type) {
-                query += ' AND Type = "' + searchVars.type + '"';
-            }
-
-            if (!!searchVars.maxPrice) {
-                query += ' AND Price <= ' + searchVars.maxPrice;
-            }
-
-            if (!!searchVars.brand) {
-                query += ' AND Brand = "' + searchVars.brand + '"';
-            }
-
-            console.log(query);
-            console.log(searchVars['gender']);
-        }
+    if (typeof searchArgs === "string" && !!searchVars.gender && !window[searchVars.gender + searchArgs.capitalize() + "sGenerated"]) {
+        window[searchVars.gender + searchArgs.capitalize() + "sGenerated"] = true;
+        query = "SELECT " + categoriesColumns[searchArgs] + ' FROM shoes WHERE Gender = "' + searchVars.gender + '"';
     }
 
     else if (!!searchVars) {
         query = "SELECT * FROM shoes WHERE 1 = 1";
 
-        if (!!searchVars.gender) {
-            query += ' AND Gender = "' + searchVars.gender + '"';
-        }
-
-        if (!!searchVars.color) {
-            query += ' AND Color = "' + searchVars.color + '"';
-        }
-
-        if (!!searchVars.type) {
-            query += ' AND Type = "' + searchVars.type + '"';
-        }
-
-        if (!!searchVars.maxPrice) {
-            query += ' AND Price <= ' + searchVars.maxPrice;
-        }
-
-        if (!!searchVars.brand) {
-            query += ' AND Brand = "' + searchVars.brand + '"';
+        for (var key in searchVars) {
+            if (key !== "maxPrice") {
+                query += " AND " + key.capitalize() + ' = "' + searchVars[key] + '"';
+            }
+            else {
+                query += ' AND Price <= ' + searchVars.maxPrice;
+            }
         }
     }
 
@@ -111,7 +62,7 @@ function getShoes(searchArgs) {
 
             if (!$(active).children().length) {
                 for (var s = 0; s < data.length; s++) {
-                    $(active).append(displayProperties(getOneProperty, data[s][getOneProperty]));
+                    $(active).append('<li><a class="' + getOneProperty.toLowerCase() + '">' + data[s][getOneProperty] + "</a></li>");
                 }
 
                 if (getOneProperty === "Brand") {
@@ -134,7 +85,7 @@ function getShoes(searchArgs) {
             $(".contents").html("");
 
             for (var s = 0; s < data.length; s++) {
-                $(".contents").append(displayShoe(data[s]));
+                $(".contents").append('<div class="shoe"><h3>' + data[s].Name + "</h3><p>" + data[s].Brand + '</p><img src="' + data[s].Image + '"><p><b>' + data[s].Price + ':-</b></p></div>');
             }
         }
     });

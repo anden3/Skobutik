@@ -43,38 +43,21 @@ a {
     top: 17%;
 }
 
+.search-menu > * {
+    margin-right: 100px;
+}
+
 .search-menu > *, .shoe-options > * {
-    margin-right: 30px;
+    display: inline;
+}
+
+.search-options > * {
+    margin-right: 10px;
     display: inline;
 }
 
 ul {
     list-style-type: none;
-}
-
-.menu {
-	width: 100px;
-    height: 200px;
-    position: fixed;
-    left: 20px;
-    top: 23%;
-}
-
-.menu, .menu * {
-    padding: 0;
-    margin: 0;
-    width: 50px;
-    height: 20px;
-}
-
-.gender-options > ul {
-    margin: 0;
-    padding: 0;
-}
-
-.gender-options > ul > li {
-    margin-bottom: 8px;
-    display: inline;
 }
 
 .shoe-options {
@@ -102,15 +85,6 @@ ul {
     margin: 0 0 0 10px;
     height: auto;
     width: 70px;
-}
-
-.search-options {
-	width: 200px;
-    height: 300px;
-}
-
-.search-options * {
-	width: auto;
 }
 
 .contents {

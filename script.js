@@ -15,21 +15,56 @@ function menuClick(e) {
             searchVars = { gender: e.target.id };
         }
     }
+}
 
+function menuHover(e, entering) {
     $("#" + e.target.id + "-brand").slideUp(200);
     $("#" + e.target.id + "-type").slideUp(200);
 
-    $("#menu-" + e.target.id).slideToggle(200);
     $("#menu-" + genders[e.target.id]).slideUp(200);
+
+    if (entering) {
+        $("#menu-" + e.target.id).slideDown(200);
+    }
+    else {
+        $("#menu-" + e.target.id).slideUp(200);
+    }
+}
+
+function optionHover(e, entering, button) {
+    var parentID = e.target.parentElement.parentElement.id;
+    var gender = parentID.substring(5, parentID.length);
+    var deleteAfter = false;
+
+    if (entering) {
+        if (!!searchVars.gender) {
+            getLists(button);
+        }
+        else {
+            searchVars.gender = gender;
+            getLists(button);
+            deleteAfter = true;
+        }
+
+        $("#" + gender + "-" + button).slideDown(200);
+    }
+    else {
+        $("#" + gender + "-" + button).slideUp(200);
+    }
+
+    $("#" + gender + "-" + categories[button]).slideUp(200);
+
+    if (deleteAfter) {
+        setTimeout(function () {
+            delete searchVars.gender;
+        }, 500);
+    }
 }
 
 function toggleOptions(e, button) {
     if (!!searchVars[button]) {
         delete searchVars[button];
     }
-
-    $("#" + searchVars.gender + "-" + button).slideToggle(200);
-    $("#" + searchVars.gender + "-" + categories[button]).slideUp(200);
 }
 
 function eventListeners() {
@@ -37,9 +72,30 @@ function eventListeners() {
 
     $(".gender").click(function (e) { menuClick(e); getShoes(); });
 
-    $(".brand-option").click(function (e) { toggleOptions(e, "brand"); getLists("brand"); getShoes(); });
+    $(".gender").on("mouseenter", function (e) {
+        menuHover(e, true);
+    }).on("mouseleave", function (e) {
+        if (!"shoe-options" in e.relatedTarget.classList && !"brand-option" in e.relatedTarget.classList && !"type-option" in e.relatedTarget.classList) {
+            menuHover(e, false);
+        }
+    });
 
-    $(".type-option").click(function (e) { toggleOptions(e, "type"); getLists("type"); getShoes(); });
+    $(".shoe-options").hover(function (e) { menuHover(e); });
+
+    $(".brand-option").on("mouseenter", function (e) {
+        optionHover(e, true, "brand");
+    }).on("mouseleave", function (e) {
+        optionHover(e, false, "brand");
+    });
+
+    $(".type-option").on("mouseenter", function (e) {
+        optionHover(e, true, "type");
+    }).on("mouseleave", function (e) {
+        optionHover(e, false, "type");
+    });
+
+    $(".brand-option").click(function (e) { toggleOptions(e, "brand"); getShoes(); });
+    $(".type-option").click(function (e) { toggleOptions(e, "type"); getShoes(); });
 
     $("#search-price").on('input', function (e) { $("#search-price-label").html(e.target.value); });
 

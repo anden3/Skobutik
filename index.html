@@ -15,45 +15,37 @@
         <div class="header">
             <a><img src="images/flashlogoliten.png"/></a>
         </div>
-        <div class="separator"></div>
+
+        <div class="separator" id="sep1"></div>
+
         <div class="search-menu">
 
             <li><a class="gender" id="woman">Kvinna</a></li>
 
-            <div class="shoe-options" id="menu2-woman">
-                <ul>
-                    <li><a class="brand-option">Märke</a></li>
-                    <div class="brand-options" id="woman-brand"></div>
+            <div class="shoe-options" id="menu-woman">
+                <li><a class="brand-option">Märke</a></li>
+                <div class="brand-options" id="woman-brand"></div>
 
-                    <li><a class="type-option">Skotyp</a></li>
-                    <div class="type-options" id="woman-type"></div>
-                </ul>
+                <li><a class="type-option">Skotyp</a></li>
+                <div class="type-options" id="woman-type"></div>
             </div>
 
             <li><a class="gender" id="man">Man</a></li>
 
-            <div class="shoe-options" id="menu2-man">
-                <ul>
-                    <li><a class="brand-option">Märke</a></li>
-                    <div class="brand-options" id="man-brand"></div>
+            <div class="shoe-options" id="menu-man">
+                <li><a class="brand-option">Märke</a></li>
+                <div class="brand-options" id="man-brand"></div>
 
-                    <li><a class="type-option">Skotyp</a></li>
-                    <div class="type-options" id="man-type"></div>
-                </ul>
+                <li><a class="type-option">Skotyp</a></li>
+                <div class="type-options" id="man-type"></div>
             </div>
-            <select id="search-color">
-                <option value="default" selected>Färg...</option>
-                <option value="black">Svart</option>
-                <option value="brown">Brun</option>
-                <option value="white">Vit</option>
-            </select>
-            <div class="search-options">
-                <p><b>Pris under:</b></p>
-                <input id="search-price" type="range" min="0" max="2000" value="2000">
-                <p><span id="search-price-label">2000</span>:-</p>
-            </div>
+            <p><b>Pris under:</b></p>
+            <input id="search-price" type="range" min="0" max="2000" value="2000">
+            <p><span id="search-price-label">2000</span>:-</p>
         </div>
-        <div class="separator2"></div>
+
+        <div class="separator" id="sep2"></div>
+
         <div class="contents"></div>
 
         <script type="text/javascript" src="script.js"></script>

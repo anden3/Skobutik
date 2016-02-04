@@ -15,21 +15,92 @@ function menuClick(e) {
             searchVars = { gender: e.target.id };
         }
     }
+}
+
+function menuHover(e, entering) {
+    var id;
+
+    if (e.target.classList[0] === "gender") {
+        id = e.target.id;
+    }
+    else if (e.target.classList[0] === "shoe-options") {
+        if (e.target.id.indexOf("woman") > -1) {
+            id = "woman";
+        }
+        else {
+            id = "man";
+        }
+    }
+    else if (e.target.classList[0] === "type-option" || e.target.classList[0] === "brand-option") {
+        if (e.target.parentElement.id.indexOf("woman") > -1) {
+            id = "woman";
+        }
+        else {
+            id = "man";
+        }
+    }
+    else if (e.target.classList[0] === "brand" || e.target.classList[0] === "type") {
+        if (e.target.parentElement.parentElement.id.indexOf("woman") > -1) {
+            id = "woman";
+        }
+        else {
+            id = "man";
+        }
+    }
 
     $("#" + e.target.id + "-brand").slideUp(200);
     $("#" + e.target.id + "-type").slideUp(200);
 
-    $("#menu-" + e.target.id).slideToggle(200);
     $("#menu-" + genders[e.target.id]).slideUp(200);
+
+    if (entering) {
+        $("#menu-" + e.target.id).slideDown(200);
+    }
+    else {
+        $("#menu-" + e.target.id).slideUp(200);
+    }
+}
+
+function optionHover(e, entering, button) {
+    var parentID = e.target.parentElement.parentElement.id;
+    var deleteAfter = false;
+
+    if (parentID.substring(0, 5).indexOf('man') > 0) {
+        gender = parentID.substring(0, parentID.indexOf('-'));
+    }
+    else {
+        var gender = parentID.substring(5, parentID.length);
+    }
+
+    if (entering) {
+        if (!!searchVars.gender) {
+            getLists(button);
+        }
+        else {
+            searchVars.gender = gender;
+            getLists(button);
+            deleteAfter = true;
+        }
+
+        $("#" + gender + "-" + button).slideDown(200);
+    }
+    else {
+        $("#" + gender + "-" + button).slideUp(200);
+    }
+
+    $("#" + gender + "-" + categories[button]).slideUp(200);
+
+    if (deleteAfter) {
+        setTimeout(function () {
+            delete searchVars.gender;
+        }, 500);
+    }
 }
 
 function toggleOptions(e, button) {
     if (!!searchVars[button]) {
         delete searchVars[button];
     }
-
-    $("#" + searchVars.gender + "-" + button).slideToggle(200);
-    $("#" + searchVars.gender + "-" + categories[button]).slideUp(200);
 }
 
 function eventListeners() {
@@ -37,9 +108,40 @@ function eventListeners() {
 
     $(".gender").click(function (e) { menuClick(e); getShoes(); });
 
-    $(".brand-option").click(function (e) { toggleOptions(e, "brand"); getLists("brand"); getShoes(); });
+    var hoverTimer = 500;
 
-    $(".type-option").click(function (e) { toggleOptions(e, "type"); getLists("type"); getShoes(); });
+    $(".gender").on("mouseenter", function (e) {
+        clearTimeout(window.close_menu);
+        menuHover(e, true);
+    }).on("mouseleave", function (e) {
+        window.close_menu = setTimeout(function() { menuHover(e, false) }, hoverTimer);
+    });
+
+    $(".shoe-options").on("mouseenter", function (e) {
+        clearTimeout(window.close_menu);
+        menuHover(e);
+    }).on("mouseleave", function (e) {
+        window.close_menu = setTimeout(function() { menuHover(e, false) }, hoverTimer);
+    });
+
+    $(".brand-option").on("mouseenter", function (e) {
+        clearInterval(window.close_category);
+        clearInterval(window.close_menu);
+        optionHover(e, true, "brand");
+    }).on("mouseleave", function (e) {
+        window.close_category = setTimeout(function() { optionHover(e, false, "brand"); }, hoverTimer);
+    });
+
+    $(".type-option").on("mouseenter", function (e) {
+        clearInterval(window.close_category);
+        clearInterval(window.close_menu);
+        optionHover(e, true, "type");
+    }).on("mouseleave", function (e) {
+        window.close_category = setTimeout(function() { optionHover(e, false, "type"); }, hoverTimer);
+    });
+
+    $(".brand-option").click(function (e) { toggleOptions(e, "brand"); getShoes(); });
+    $(".type-option").click(function (e) { toggleOptions(e, "type"); getShoes(); });
 
     $("#search-price").on('input', function (e) { $("#search-price-label").html(e.target.value); });
 

@@ -10,6 +10,9 @@ var genders = { woman: "man", man: "woman" };
 var categories = { brand: "type", type: "brand" };
 var categoriesColumns = { brand: "Brand", type: "DISTINCT Type" };
 
+window.closeCategory;
+window.closeMenu;
+
 String.prototype.capitalize = function () {
     return this.slice(0, 1).toUpperCase() + this.substring(1);
 }
@@ -42,6 +45,12 @@ function getLists(category) {
         for (var s = 0; s < data.length; s++) {
             $("#" + searchVars.gender + "-" + category).append('<li><a class="' + category + '">' + data[s][category.capitalize()] + "</a></li>");
         }
+
+        $('.' + category).on("mouseenter", function (e) {
+            clearInterval(close_category);
+        }).on("mouseleave", function (e) {
+            close_category = setTimeout(function() { optionHover(e, false, category); }, 500);
+        });
 
         $('.' + category).click(function (e) {
             delete searchVars[categories[category]];

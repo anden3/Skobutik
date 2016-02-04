@@ -47,7 +47,7 @@ a {
 }
 
 .search-menu > * {
-	margin-right: 30px;
+	margin-right: 100px;
 }
 
 .search-menu > *, .shoe-options > * {
@@ -59,14 +59,19 @@ a {
     position: absolute;
     height: auto;
     width: auto;
+    font-size: 14px;
+    color: #404040;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 7px;
     z-index: 2;
+    padding: 10px;
+
 }
 
 .shoe-options * {
 	display: block;
+    margin-top: 28%;
 }
 
 #menu-woman {

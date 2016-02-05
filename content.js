@@ -10,6 +10,8 @@ var genders = { woman: "man", man: "woman" };
 var categories = { brand: "type", type: "brand" };
 var categoriesColumns = { brand: "Brand", type: "DISTINCT Type" };
 
+var shoes = {};
+
 window.closeCategory;
 window.closeMenu;
 
@@ -84,8 +86,23 @@ function getShoes() {
         $(".contents").html("");
 
         for (var s = 0; s < data.length; s++) {
-            $(".contents").append('<div class="shoe"><h3>' + data[s].Name + "</h3><p>" + data[s].Brand + '</p><img src="' + data[s].Image + '"><p><b>' + data[s].Price + ':-</b></p></div>');
+            shoes[data[s].Name] = {};
+
+            shoes[data[s].Name]["Name"] = data[s].Name;
+            shoes[data[s].Name]["Brand"] = data[s].Brand;
+            shoes[data[s].Name]["Desc"] = data[s].Description;
+            shoes[data[s].Name]["Color"] = data[s].Color;
+            shoes[data[s].Name]["Type"] = data[s].Type;
+            shoes[data[s].Name]["MinSize"] = data[s].MinSize;
+            shoes[data[s].Name]["MaxSize"] = data[s].MaxSize;
+            shoes[data[s].Name]["Gender"] = data[s].Gender;
+            shoes[data[s].Name]["Image"] = data[s].Image;
+            shoes[data[s].Name]["Price"] = data[s].Price;
+
+            $(".contents").append('<div class="shoe" id="' + data[s].Name + '"><h3>' + data[s].Name + "</h3><p>" + data[s].Brand + '</p><img src="' + data[s].Image + '"><p><b>' + data[s].Price + ':-</b></p></div>');
         }
+
+        $(".shoe").click(function (e) { showShoe(e.target.id); });
     });
 }
 

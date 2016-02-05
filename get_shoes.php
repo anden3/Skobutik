@@ -27,6 +27,7 @@ if ($_POST) {
 
             $results[$i]->Name = $object->Name;
             $results[$i]->Brand = $object->Brand;
+            $results[$i]->Description = $object->Description;
             $results[$i]->Color = $object->Color;
             $results[$i]->Type = $object->Type;
             $results[$i]->MinSize = $object->MinSize;

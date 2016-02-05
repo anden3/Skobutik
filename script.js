@@ -103,8 +103,18 @@ function toggleOptions(e, button) {
     }
 }
 
+function showShoe(id) {
+    $(".contents").css.display = "none";
+    $(".desc").html = "";
+
+    console.log(shoes);
+    console.log(id);
+
+    $(".desc").append('<h2>' + shoes[id]["Name"] + '</h2>');
+}
+
 function eventListeners() {
-    $(".header").click(function (e) { searchVars = {}; getShoes(); });
+    $(".header img").click(function (e) { searchVars = {}; getShoes(); });
 
     $(".gender").click(function (e) { menuClick(e); getShoes(); });
 
@@ -146,25 +156,6 @@ function eventListeners() {
     $("#search-price").on('input', function (e) { $("#search-price-label").html(e.target.value); });
 
     $("#search-price").change(function (e) { searchVars["maxPrice"] = e.target.value; getShoes(); });
-
-    $(document).mouseup(function (e) {
-        if (!!searchVars.gender && e.target.classList[0] !== "gender") {
-            var container = $("#menu-" + searchVars['gender']);
-
-            if (!container.is(e.target) && container.has(e.target).length === 0) {
-                container.hide();
-
-                if (!!searchVars.maxPrice) {
-                    searchVars = { maxPrice: searchVars.maxPrice };
-                }
-                else {
-                    searchVars = {};
-                }
-
-                getShoes();
-            }
-        }
-    });
 }
 
 eventListeners();
